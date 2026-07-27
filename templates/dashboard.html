@@ -1,43 +1,47 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Repositories</title>
-</head>
+{% extends "base.html" %}
 
-<body>
-    <h1>Repository Explorer</h1>
-    <form method="POST">
-        <input type="text" name="username" placeholder="Enter GitHub username" required>
-        <button type="submit">Search</button>
-    </form>
+{% block title %} Repository Explorer {% endblock %}
+{% block content %}
 
-    <hr>
+<h1 class="mb-4">Repository Explorer</h1>
 
-    {% for repo in repos %}
-    <div>
-        <h2>{{ repo.name }}</h2>
-        <p>{{ repo.description }}</p>
-        <p>Stars: {{ repo.stargazers_count }} | Forks: {{ repo.forks_count }}</p>
-        <p>Language: {{ repo.language }}</p>
-        <p>Last Updated: {{ repo.updated_at }}</p>
-        <p>Visibility: {{ repo.visibility }}</p>
-        <p>License: {{ repo.license.name if repo.license else 'No license' }}</p>
-        <p>Default Branch: {{ repo.default_branch }}</p>
-        <p>Open Issues: {{ repo.open_issues_count }}</p>
-        <p>Watchers: {{ repo.watchers_count }}</p>
-        <p>Archived: {{ 'Yes' if repo.archived else 'No' }}</p>
-        <p>Disabled: {{ 'Yes' if repo.disabled else 'No' }}</p>
-        <p>Topics: {{ repo.topics | join(', ') }}</p>
-        <p>Homepage: <a href="{{ repo.homepage }}" target="_blank">{{ repo.homepage }}</a></p>
-        <p>Created At: {{ repo.created_at }}</p>
-        <p>Updated At: {{ repo.updated_at }}</p>
-        <p>Size: {{ repo.size }}</p>
-        <a href="{{ repo.html_url }}" target="_blank">View on GitHub</a>
+<form method="POST" class="mb-4">
+    <div class="input-group">
+        <input type="text" name="username" class="form-control" placeholder="Enter GitHub username" required>
     </div>
-    <hr>
-    {% else %}
-    <p>No repositories found for this user.</p>
+    <div class="col-md-2">
+        <button type="submit" class="btn btn-primary">Search</button>
+    </div>
+</form>
+
+{% if repos %}
+
+<div class="row">
+    {% for repo in repos %}
+    <div class="col-md-6 mb-4">
+        <div class="card h-100 shadow-sm">
+            <div class="card-body">
+                <h4>{{ repo.name }}</h4>
+                <p class="text-muted">{{ repo.description or "No description available." }}</p>
+                <p>
+                    <strong>Language:</strong> {{ repo.language or "Not specified" }}
+                </p>
+                <p>
+                    <strong>Stars:</strong> {{ repo.stargazers_count }} |
+                    <strong>Forks:</strong> {{ repo.forks_count }} |
+                    <strong>Open Issues:</strong> {{ repo.open_issues_count }}
+                </p>
+                <p>
+                    <small class="text-muted">Last Updated: {{ repo.updated_at }}</small>
+                </p>
+                <a href="{{ repo.html_url }}" target="_blank" class="btn btn-outline-dark">View on GitHub</a>
+            </div>
+        </div>
+    </div>
     {% endfor %}
-</body>
+</div>
+{% else %}
+<p class="text-muted">No repositories found for this user.Enter a different username.</p>
+{% endif %}
+
+{% endblock %}

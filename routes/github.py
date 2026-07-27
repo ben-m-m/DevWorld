@@ -6,7 +6,7 @@ github_service = GithubService()
 
 #
 @github_bp.route("/dashboard", methods=["GET", "POST"])
-def repositories():
+def dashboard():
     repos = []
     if request.method == "POST":
         username = request.form.get("username")
