@@ -1,8 +1,10 @@
 from flask import Flask, render_template, request, redirect, url_for
 from services.github import GithubService
+from routes.github import github_bp
 
 app = Flask(__name__)
 app.config.from_object('config.Config')
+app.register_blueprint(github_bp)
 
 github = GithubService()
 
