@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dev World</title>
+</head>
+<body>
+    <h1>Welcome to Dev World</h1>
+    <p>A personal Github Engineering Dashboard.</p>
+    <hr>
+    <img src="{{ user.avatar_url}}" width="150">
+
+    <h2>{{user.name}}</h2>
+
+    <p><strong>Username:</strong> {{ user.login }} </p>
+    <p><strong>Bio:</strong> {{ user.bio }} </p>
+    <p><strong>Followers:</strong> {{ user.followers }} </p>
+    <p><strong>Following:</strong> {{ user.following }} </p>
+    <p><strong>Repositories:</strong> {{ user.public_repos }} </p>
+    <p><strong>Location:</strong> {{ user.location }} </p>
+
+</body>
+</html>

@@ -1,0 +1,44 @@
+# Virtual Environment
+venv/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Flask
+instance/
+.webassets-cache
+
+# Environment Variables
+.env
+
+# IDE
+.vscode/
+.idea/
+
+# Linux
+*~
+
+# Logs
+*.log
+
+# Cache
+.cache/
+
+# Testing
+.pytest_cache/
+
+# Distribution
+build/
+dist/
+
+# Coverage
+htmlcov/
+.coverage
+
+# Gunicorn
+gunicorn.pid
+
+# Misc
+*.sqlite3
