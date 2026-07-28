@@ -6,17 +6,27 @@ github_bp = Blueprint ('github', __name__, template_folder='templates')
 github_service = GithubService()
 analytics_service = AnalyticsService()
 
-#
-@github_bp.route("/dashboard", methods=["GET", "POST"])
-def dashboard():
-    repos = []
-    analytics = {}
+#search route for username in github
+@github_bp.route("/search", methods=["POST"])
+def search():
+    username = request.form.get("username")
 
-    if request.method == "POST":
-        username = request.form.get("username")
-        
-        repos = github_service.get_repositories(username)
-        analytics = analytics_service.analyze_repositories(repos)
-        print(analytics)
-        print(f"Fetched {len(repos)} repositories for user {username}.")
-    return render_template("dashboard.html", repos=repos, analytics=analytics)
+    return redirect(url_for("github.profile", username=username))
+
+    
+@github_bp.route("/profile/<username>")
+def profile(username):
+    user = github_service.get_user(username)
+
+    if not user:
+        return render_template("profile.html", user=None, error="User not found.")
+    
+    return render_template("profile.html", user=user)
+
+#
+@github_bp.route("/dashboard/<username>")
+def dashboard(username):
+    repos = github_service.get_repositories(username)
+    analytics = analytics_service.analyze_repositories(repos)
+
+    return render_template("dashboard.html", repos=repos, analytics=analytics, username=username)

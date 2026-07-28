@@ -11,11 +11,11 @@ github = GithubService()
 
 #index route
 @app.route('/')
-def index():
-    username = "ben-m-m" # Replace with actual username or get from request
-    user = github.get_user(username)
+def home():
+    #username = "ben-m-m" # Replace with actual username or get from request
+    #user = github.get_user(username)
 
-    return render_template('index.html', user=user)
+    return render_template('index.html')
 
 
 if __name__ == '__main__':
