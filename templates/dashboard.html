@@ -3,16 +3,10 @@
 {% block title %} Repository Explorer {% endblock %}
 {% block content %}
 
-<h1 class="mb-4">Repository Explorer</h1>
-
-<form method="POST" class="row g-3mb-4">
-    <div class="col-md-10">
-        <input type="text" name="username" class="form-control" placeholder="Enter GitHub username" required>
-    </div>
-    <div class="col-md-2">
-        <button class="btn btn-primary w-100">Search</button>
-    </div>
-</form>
+<h1 class="mb-4">{{ username }}'s Dashboard</h1>
+<a href="{{ url_for('home') }}" class="btn btn-secondary">
+    ← Search Another User
+</a>
 
 {% if analytics %}
 <div class="row mb-4">

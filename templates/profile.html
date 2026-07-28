@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}
+Profile
+{% endblock %}
+
+{% block content %}
+{% if user %}
+<div class="card shadow">
+    <div class="card-body text-center">
+        <img src="{{ user.avatar_url }}" class="rounded-circle mb-3" width="150" height="150">
+        <h2>{{ user.name }}</h2>
+        <p>@{{ user.login }}</p>
+        <p>{{ user.bio }}</p>
+        <p>Followers: {{ user.followers }} | Following: {{ user.following }}</p>
+        <p>Public Repositories: {{ user.public_repos }}</p>
+        <a href="{{ url_for('github.dashboard', username=user.login)}}" class="btn btn-success">View Dashboard</a>
+    </div>
+</div>
+{% else %}
+<div class="alert alert-warning text-center">
+    <h4>User not found</h4>
+    <p>The GitHub user you are looking for does not exist.Please confirm the username and try agin</p>
+    <a href="{{ url_for('home') }}" class="btn btn-secondary">
+        ← Search Another User
+    </a>
+</div>
+{% endif %}
+{% endblock %}

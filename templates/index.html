@@ -9,7 +9,7 @@ Home
     <h1>Welcome to DevWorld</h1>
     <p>Your personal Github Engineering Platform.</p>
 
-    <form>
+    <form
         action="{{ url_for('github.search') }}" method="POST" class="row justify-content-center mt-4">
         <div class="col-md-6">
             <input type="text" name="username" class="form-control form-control-lg" placeholder="Enter GitHub username"
