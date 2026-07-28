@@ -5,17 +5,89 @@
 
 <h1 class="mb-4">Repository Explorer</h1>
 
-<form method="POST" class="mb-4">
-    <div class="input-group">
+<form method="POST" class="row g-3mb-4">
+    <div class="col-md-10">
         <input type="text" name="username" class="form-control" placeholder="Enter GitHub username" required>
     </div>
     <div class="col-md-2">
-        <button type="submit" class="btn btn-primary">Search</button>
+        <button class="btn btn-primary w-100">Search</button>
     </div>
 </form>
 
-{% if repos %}
+{% if analytics %}
+<div class="row mb-4">
+    <div class="col-md-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <h2>{{ analytics.total_repositories }}</h2>
+                <p>Total Repositories</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <h2>{{ analytics.total_stars }}</h2>
+                <p>Total Stars</p>
+            </div>
 
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <h2>{{ analytics.total_forks }}</h2>
+                <p>Total Forks</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <h2>{{ analytics.most_used_language }}</h2>
+                <p>Primary Language</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endif %}
+
+{% if repos %}
+<div class="alert alert-info">
+
+    <h5>DevWorld Insights</h5>
+
+    <ul>
+
+        <li>
+            Your most used language is
+            <strong>{{ analytics.most_used_language }}</strong>.
+        </li>
+
+        <li>
+            Your most starred repository is
+            <strong>{{ analytics.most_starred_repo }}</strong>.
+        </li>
+
+        <li>
+            You have
+            <strong>{{ analytics.active_repositories }}</strong>
+            active repositories.
+        </li>
+
+        <li>
+            Your largest repository is
+            <strong>{{ analytics.largest_repository }}</strong>.
+        </li>
+
+    </ul>
+
+</div>
+{% endif %}
+
+{% if repos %}
 <div class="row">
     {% for repo in repos %}
     <div class="col-md-6 mb-4">
