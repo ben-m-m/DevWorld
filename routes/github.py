@@ -26,7 +26,8 @@ def profile(username):
 #
 @github_bp.route("/dashboard/<username>")
 def dashboard(username):
+    user = github_service.get_user(username)
     repos = github_service.get_repositories(username)
     analytics = analytics_service.analyze_repositories(repos)
 
-    return render_template("dashboard.html", repos=repos, analytics=analytics, username=username)
+    return render_template("dashboard.html", user=user, repos=repos, analytics=analytics, username=username)

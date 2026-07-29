@@ -5,14 +5,13 @@ Analytics service for processing and analyzing GitHub repos data.
 """
 
 class AnalyticsService:
-    @staticmethod
-    def analyze_repositories(repos):
-        """
-        Analyzes the given list of repositories and returns a summary.
+    
+    def analyze_repositories( self, repos):
         
-        Args:
-            repos (list): List of repository dictionaries.
-            """
+        """
+        Orchestrates all the other  repo analysis functions.
+        Returns analytics dict
+        """
         if not repos:
             return {
                 "total_repositories": 0,
@@ -20,46 +19,80 @@ class AnalyticsService:
                 "total_forks": 0,
                 "total_open_issues": 0,
                 "most_common_language": "N/A",
+                "language_breakdown": {},
                 "largest_repo": "N/A",
-                "active_repo": 0
-            }
+                "largest_size": 0,
+                "most_starred_repo": "N/A",
+                "highest_star_count": 0,
+                "oldest_repository": "N/A",
+                "active_repo": 0,
+                }
 
+        #general stats
         total_stars = sum(repo.get("stargazers_count", 0) for repo in repos)
         total_forks = sum(repo.get("forks_count", 0) for repo in repos)
         total_open_issues = sum(repo.get("open_issues_count", 0) for repo in repos)
 
-        #most common language used
-        languages = [repo.get("language") for repo in repos if repo.get("language")]
 
-        language_counter = Counter(languages)
-        most_common_language = language_counter.most_common(1)[0][0] if language_counter else "N/A"
-
-        #largest repo by size
-        largest_repo = max(repos, key=lambda repo: repo.get("size", 0), default=None)
-        largest_repo_name = largest_repo.get("name") if largest_repo else "N/A"
-
-        #active repo by recent updates
-        active_repositories = sum(1 for repo in repos if repo.get("archived"))
-        active_repo_name = active_repositories.get("name") if active_repositories else "N/A"
-
-        most_starred = max(repos, key=lambda repo: repo.get("stargazers_count", 0), default=None)
-        most_starred_name = most_starred.get("name") if most_starred else "N/A"
-
-        largest_size_repo = max(repo.get("size", 0) for repo in repos)
-        largest_size_repo_name = next((repo.get("name") for repo in repos if repo.get("size", 0) == largest_size_repo), "N/A")  
-
-        oldest_repo = min(repos, key=lambda repo: repo.get("created_at", ""), default=None)
-        oldest_repo_name = oldest_repo.get("name") if oldest_repo else "N/A"
-
-        return {
+        summary = {
             "total_repositories": len(repos),
             "total_stars": total_stars,
             "total_forks": total_forks,
-            "total_open_issues": total_open_issues,
-            "most_used_language": most_common_language,
-            "largest_repository": largest_repo_name,
+            "total_open_issues": total_open_issues
+
+        }
+
+        #merging specialized analysis
+        summary.update(self.language_statistics(repos))
+        summary.update(self.repository_ranking(repos))
+        summary.update(self.activity_statistics(repos))
+
+        return summary
+
+        
+
+    def language_statistics(self, repos):
+            # languages used stats
+        languages = [repo.get("language") for repo in repos if repo.get("language")]
+        
+        language_counter = Counter(languages)
+            
+        return {
+            "most_common_language" : language_counter.most_common(1)[0][0] if language_counter else "N/A",
+            "Language_breakdown": dict(language_counter)
+        }
+
+    
+
+    def repository_ranking(self, repos):
+        #repo rankings and markers counts
+        if not repos:
+            return {}
+        largest_repo = max(repos, key=lambda repo: repo.get("size", 0), default=None)
+        
+
+        most_starred = max(repos, key=lambda repo: repo.get("stargazers_count", 0), default=None)
+        
+        
+        largest_size_repo = max(repo.get("size", 0) for repo in repos)
+          
+        
+        oldest_repo = min(repos, key=lambda repo: repo.get("created_at", ""), default=None)
+
+        return {
+            "largest_repository": largest_repo["name"] if largest_repo else "N/A",
+            "most_starred": most_starred["name"] if most_starred else "N/A",
+            "largest_size": largest_size_repo,
+            "oldest_repo": oldest_repo["name"] if oldest_repo else "N/A",
+            "highest_star_count": most_starred.get("stargazers_count", 0)
+        }
+
+    def activity_statistics(self, repos):
+        #active repo by recent updates
+        active_repositories = sum(1 for repo in repos if not repo.get("archived", False))
+        archived_repositories = sum(1 for repo in repos if repo.get("archived", False))
+
+        return {
             "active_repositories": active_repositories,
-            "most_starred_repo": most_starred_name,
-            "oldest_repo": oldest_repo_name,
-            "largest_size_repo": largest_size_repo_name
+            "archived_repositories": archived_repositories
         }
