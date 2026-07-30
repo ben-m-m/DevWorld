@@ -95,7 +95,7 @@
 
 <!-- analytics -->
 {% if repos %}
-<div class="alert alert-info">
+<div class="alert alert-info" id="repositorySummary">
 
     <h5>DevWorld Insights</h5>
 
@@ -130,10 +130,81 @@
 
 {% if analytics.language_breakdown %}
 
-<input id="repoSearch" class="form-control mb-4" placeholder="Type Repo Name To Search repositories...">
+<!-- repo filters and controls -->
+<div class="card shadow mb-4">
+    <div class="card-body">
+        <h4 class="mb-3"> Repository Explorer </h4>
+        <div class="row g-3">
+            <!-- searching -->
+            <div class="col-md-4">
+                <input id="repoSearch" class="form-control mb-4" placeholder="Type Repo Name To Search repositories...">
+            </div>
+            <!-- sorting section -->
+            <div class="col-md-3">
+                <select id="repoSort" class="form-select">
+                    <option value="updated_desc">
+                        Newest Updated
+                    </option>
+                    <option value="updated_asc">
+                        Oldest Updated
+                    </option>
+                    <option value="created_desc">
+                        Newest Created
+                    </option>
+                    <option value="created_asc">
+                        Oldest Created
+                    </option>
+                    <option value="name_asc">
+                        Alphabetical A-Z
+                    </option>
+                    <option value="name_desc">
+                        Alphabetical Z-A
+                    </option>
+                    <option value="stars_desc">
+                        Most Stars
+                    </option>
+                    <option value="stars_asc">
+                        Least Stars
+                    </option>
+                    <option value="forks_desc">
+                        Most Forks
+                    </option>
+                    <option value="forks_asc">
+                        Least Forks
+                    </option>
+                    <option value="size_desc">
+                        Largest Size
+                    </option>
+                    <option value="size_asc">
+                        Smallest Size
+                    </option>
+                </select>
+            </div>
+            <!-- language filter -->
+            <div class="col-md-2">
+                <select id="languageFilter" class="form-select">
+                    <option value="all">
+                        All Languages
+                    </option>
+                </select>
+            </div>
+<!-- reset filters -->
+            <div class="col-md-3">
+                <button id="resetFilters" class="btn btn-secondary">
+                    Reset Filters
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <hr class="my-5">
 <h3 class="mb-4"> Repository Analytics</h3>
+<div class="mb-4">
+    <button id="showAllRepos" class="btn btn-primary">
+        Show All Repository Analytics
+    </button>
+</div>
 <div class="row">
     <!-- language chart -->
     <div class="col-lg-6 mb-4">
@@ -143,7 +214,7 @@
                     Language Distribution
                 </h5>
                 <div class="chart-container">
-                    <canvas id="languageChart" data-language='{{ analytics.language_breakdown | tojson }}'></canvas>
+                    <canvas id="languageChart"></canvas>
                 </div>
 
             </div>
@@ -157,8 +228,7 @@
                     Repository Stars
                 </h5>
                 <div class="chart-container">
-                    <canvas id="starsChart" data-labels='{{ chart_data.repository_names | tojson }}'
-                        data-values='{{ chart_data.repository_stars | tojson }}'>
+                    <canvas id="starsChart">
 
                     </canvas>
                 </div>
@@ -173,7 +243,7 @@
                     Repository Forks
                 </h5>
                 <div class="chart-container">
-                    <canvas id="forkChart" data-labels='{{ chart_data.repository_names | tojson }}' data-values='{{ chart_data.repository_forks | tojson }}'></canvas>
+                    <canvas id="forkChart"></canvas>
                 </div>
             </div>
         </div>
@@ -183,9 +253,9 @@
 {% endif %}
 <!-- insights -->
 {% if repos %}
-<div class="row">
-    {% for repo in repos %}
-    <div class="col-md-6 mb-4 repository-card" data-name="{{ repo.name }}" >
+<div class="row" id="repositoryContainer">
+    <!-- {% for repo in repos %}
+    <div class="col-md-6 mb-4 repository-card" data-name="{{ repo.name }}">
         <div class="card h-100 shadow-sm">
             <div class="card-body">
                 <h4>{{ repo.name }}</h4>
@@ -214,7 +284,7 @@
             </div>
         </div>
     </div>
-    {% endfor %}
+    {% endfor %} -->
 </div>
 {% else %}
 <p class="text-muted">No repositories found for this user.Enter a different username.</p>
@@ -224,6 +294,14 @@
 
 {% block scripts %}
 
-<script src="{{ url_for('static', filename='js/dashboard.js')}}"></script>
+<script>
+    window.devWorld = {
+        repositories: {{ repos | tojson }},
+        analytics: {{ analytics | tojson }}
+    };
+</script>
+<script src="{{ url_for('static', filename='js/repository.js') }}"></script>
+<script src="{{ url_for('static', filename='js/filters.js') }}"></script>
+<script src="{{ url_for('static', filename='js/charts.js') }}"></script>
 
 {% endblock %}
