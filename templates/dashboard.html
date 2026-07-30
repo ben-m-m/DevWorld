@@ -129,6 +129,9 @@
 
 
 {% if analytics.language_breakdown %}
+
+<input id="repoSearch" class="form-control mb-4" placeholder="Type Repo Name To Search repositories...">
+
 <hr class="my-5">
 <h3 class="mb-4"> Repository Analytics</h3>
 <div class="row">
@@ -147,27 +150,42 @@
         </div>
     </div>
     <!-- Stars Chart -->
-     <div class="col-lg-6 mb-4">
+    <div class="col-lg-6 mb-4">
         <div class="card shadow chart-card">
             <div class="card-body">
                 <h5 class="chart-title">
                     Repository Stars
                 </h5>
                 <div class="chart-container">
-                    <canvas id="starsChart" data-labels='{{ chart_data.repository_names | tojson }}' data-values='{{ chart_data.repository_stars | tojson }}'>
+                    <canvas id="starsChart" data-labels='{{ chart_data.repository_names | tojson }}'
+                        data-values='{{ chart_data.repository_stars | tojson }}'>
 
                     </canvas>
                 </div>
             </div>
         </div>
-     </div>
+    </div>
+    <!-- no of forks per repo -->
+    <div class="col-lg-6 mb-4">
+        <div class="card shadow chart-card">
+            <div class="card-body">
+                <h5 class="chart-title">
+                    Repository Forks
+                </h5>
+                <div class="chart-container">
+                    <canvas id="forkChart" data-labels='{{ chart_data.repository_names | tojson }}' data-values='{{ chart_data.repository_forks | tojson }}'></canvas>
+                </div>
+            </div>
+        </div>
+
+    </div>
 </div>
 {% endif %}
 <!-- insights -->
 {% if repos %}
 <div class="row">
     {% for repo in repos %}
-    <div class="col-md-6 mb-4">
+    <div class="col-md-6 mb-4 repository-card" data-name="{{ repo.name }}" >
         <div class="card h-100 shadow-sm">
             <div class="card-body">
                 <h4>{{ repo.name }}</h4>
@@ -187,7 +205,7 @@
                     <span>🐞 {{ repo.open_issues_count }}</span>
 
                 </div>
-                
+
                 <p> size: {{ repo.size }} KB </p>
                 <p>
                     <small class="text-muted">Last Updated: {{ repo.updated_at[:10] }}</small>

@@ -33,6 +33,9 @@ def dashboard(username):
     chart_data = {
         "repository_names": [repo["name"] for repo in repos],
         "repository_stars": [repo["stargazers_count"] for repo in repos],
+        "repository_names": [repo["name"] for repo in repos],
+        "repository_forks": [repo["forks_count"] for repo in repos],
+        "repository_sizes": [repo["size"] for repo in repos],
     }
 
     return render_template("dashboard.html", user=user, repos=repos, analytics=analytics, username=username, chart_data=chart_data)
