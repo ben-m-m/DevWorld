@@ -1,0 +1,16 @@
+/* dashboard charts */
+.chart-container {
+    max-width: 420px;
+    margin: 0 auto;
+    padding: 1rem;
+}
+
+.chart-card {
+    min-height: 420px;
+
+}
+
+.chart-title {
+    font-weight: 600;
+    margin-bottom: 1rem;
+}

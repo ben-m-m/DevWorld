@@ -13,7 +13,7 @@
     <div class="card-body d-flex align-items-center">
         <img src="{{ user.avatar_url }}" class="rounded-circle me-4" width="120" height="120">
         <div>
-            <h2>{{ user.name }}</h2>
+            <h2>{{ user.name or user.login}}</h2>
             <p class="text-muted">
                 @{{ user.login }}
             </p>
@@ -21,14 +21,29 @@
                 {{ user.bio or "User's Bio is not Available"}}
             </p>
             <p>
-                {{ user.location or "Unknown"}}
+                {{ user.location or "Location not Specified"}}
             </p>
             <p>
-                Followers: <strong>{{ user.following }}</strong> | Following: <strong>{{ user.following }}</strong> |
+                {{ user.company or "Independent Dev" }}
+            </p>
+            <p>
+                {% if user.blog %}
+                <a href="{{ user.blog}}" target="_blank">
+                    {{ user.blog }}
+                </a>
+                {% else %}
+                None
+                {% endif %}
+            </p>
+            <p>
+                Joined: {{ user.created_at[:10] }}
+            </p>
+            <p>
+                Followers: <strong>{{ user.followers }}</strong> | Following: <strong>{{ user.following }}</strong> |
                 Public Repos: <strong>{{ user.public_repos }}</strong>
             </p>
 
-            <a href="{{ user.html_url }}" target="_blank" class="btn btn-dark"> View Github Profile</a>
+            <a href="{{ user.html_url }}" target="_blank" class="btn btn-dark"> View GitHub Profile</a>
 
 
         </div>
@@ -38,106 +53,159 @@
 
 
 
-    {% if analytics %}
-    <div class="row mb-4">
-        <div class="col-md-3">
-            <div class="card text-center">
-                <div class="card-body">
-                    <h2>{{ analytics.total_repositories }}</h2>
-                    <p>Total Repositories</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="card text-center">
-                <div class="card-body">
-                    <h2>{{ analytics.total_stars }}</h2>
-                    <p>Total Stars</p>
-                </div>
-
-            </div>
-        </div>
-
-        <div class="col-md-3">
-            <div class="card text-center">
-                <div class="card-body">
-                    <h2>{{ analytics.total_forks }}</h2>
-                    <p>Total Forks</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="card text-center">
-                <div class="card-body">
-                    <h2>{{ analytics.most_common_language }}</h2>
-                    <p>Primary Language</p>
-                </div>
+{% if analytics %}
+<div class="row mb-4">
+    <div class="col-md-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <h2>{{ analytics.total_repositories }}</h2>
+                <p>Total Repositories</p>
             </div>
         </div>
     </div>
+    <div class="col-md-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <h2>{{ analytics.total_stars }}</h2>
+                <p>Total Stars</p>
+            </div>
 
-    {% endif %}
-
-    {% if repos %}
-    <div class="alert alert-info">
-
-        <h5>DevWorld Insights</h5>
-
-        <ul>
-
-            <li>
-                Your most used language is
-                <strong>{{ analytics.most_common_language }}</strong>.
-            </li>
-
-            <li>
-                Your most starred repository is
-                <strong>{{ analytics.most_starred }}</strong>.
-            </li>
-
-            <li>
-                You have
-                <strong>{{ analytics.active_repositories }}</strong>
-                active repositories.
-            </li>
-
-            <li>
-                Your largest repository is
-                <strong>{{ analytics.largest_repository }}</strong>.
-            </li>
-
-        </ul>
-
+        </div>
     </div>
-    {% endif %}
 
-    {% if repos %}
-    <div class="row">
-        {% for repo in repos %}
-        <div class="col-md-6 mb-4">
-            <div class="card h-100 shadow-sm">
-                <div class="card-body">
-                    <h4>{{ repo.name }}</h4>
-                    <p class="text-muted">{{ repo.description or "No description available." }}</p>
-                    <p>
-                        <strong>Language:</strong> {{ repo.language or "Not specified" }}
-                    </p>
-                    <p>
-                        <strong>Stars:</strong> {{ repo.stargazers_count }} |
-                        <strong>Forks:</strong> {{ repo.forks_count }} |
-                        <strong>Open Issues:</strong> {{ repo.open_issues_count }}
-                    </p>
-                    <p>
-                        <small class="text-muted">Last Updated: {{ repo.updated_at }}</small>
-                    </p>
-                    <a href="{{ repo.html_url }}" target="_blank" class="btn btn-outline-dark">View on GitHub</a>
+    <div class="col-md-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <h2>{{ analytics.total_forks }}</h2>
+                <p>Total Forks</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <h2>{{ analytics.most_common_language }}</h2>
+                <p>Primary Language</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endif %}
+
+<!-- analytics -->
+{% if repos %}
+<div class="alert alert-info">
+
+    <h5>DevWorld Insights</h5>
+
+    <ul>
+
+        <li>
+            Your most used language is
+            <strong>{{ analytics.most_common_language }}</strong>.
+        </li>
+
+        <li>
+            Your most starred repository is
+            <strong>{{ analytics.most_starred }}</strong>.
+        </li>
+
+        <li>
+            You have
+            <strong>{{ analytics.active_repositories }}</strong>
+            active repositories.
+        </li>
+
+        <li>
+            Your largest repository is
+            <strong>{{ analytics.largest_repository }}</strong>.
+        </li>
+
+    </ul>
+
+</div>
+{% endif %}
+
+
+{% if analytics.language_breakdown %}
+<hr class="my-5">
+<h3 class="mb-4"> Repository Analytics</h3>
+<div class="row">
+    <!-- language chart -->
+    <div class="col-lg-6 mb-4">
+        <div class="card shadow chart-card">
+            <div class="card-body">
+                <h5 class="chart-title">
+                    Language Distribution
+                </h5>
+                <div class="chart-container">
+                    <canvas id="languageChart" data-language='{{ analytics.language_breakdown | tojson }}'></canvas>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- Stars Chart -->
+     <div class="col-lg-6 mb-4">
+        <div class="card shadow chart-card">
+            <div class="card-body">
+                <h5 class="chart-title">
+                    Repository Stars
+                </h5>
+                <div class="chart-container">
+                    <canvas id="starsChart" data-labels='{{ chart_data.repository_names | tojson }}' data-values='{{ chart_data.repository_stars | tojson }}'>
+
+                    </canvas>
                 </div>
             </div>
         </div>
-        {% endfor %}
-    </div>
-    {% else %}
-    <p class="text-muted">No repositories found for this user.Enter a different username.</p>
-    {% endif %}
+     </div>
+</div>
+{% endif %}
+<!-- insights -->
+{% if repos %}
+<div class="row">
+    {% for repo in repos %}
+    <div class="col-md-6 mb-4">
+        <div class="card h-100 shadow-sm">
+            <div class="card-body">
+                <h4>{{ repo.name }}</h4>
+                <p class="text-muted">{{ repo.description or "No description available." }}</p>
+                <p>
+                    <strong>Language:</strong>
+                    <span class="badge bg-primary"> {{ repo.language or "Unknown" }} </span>
+                </p>
+                <div class="d-flex flex-wrap gap-3 my-2">
 
-    {% endblock %}
+                    <span>⭐ {{ repo.stargazers_count }}</span>
+
+                    <span>🍴 {{ repo.forks_count }}</span>
+
+                    <span>👀 {{ repo.watchers_count }}</span>
+
+                    <span>🐞 {{ repo.open_issues_count }}</span>
+
+                </div>
+                
+                <p> size: {{ repo.size }} KB </p>
+                <p>
+                    <small class="text-muted">Last Updated: {{ repo.updated_at[:10] }}</small>
+                </p>
+                <a href="{{ repo.html_url }}" target="_blank" class="btn btn-outline-dark">View on GitHub</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<p class="text-muted">No repositories found for this user.Enter a different username.</p>
+{% endif %}
+
+{% endblock %}
+
+{% block scripts %}
+
+<script src="{{ url_for('static', filename='js/dashboard.js')}}"></script>
+
+{% endblock %}

@@ -59,7 +59,7 @@ class AnalyticsService:
             
         return {
             "most_common_language" : language_counter.most_common(1)[0][0] if language_counter else "N/A",
-            "Language_breakdown": dict(language_counter)
+            "language_breakdown": dict(language_counter)
         }
 
     

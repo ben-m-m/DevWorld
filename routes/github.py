@@ -30,4 +30,9 @@ def dashboard(username):
     repos = github_service.get_repositories(username)
     analytics = analytics_service.analyze_repositories(repos)
 
-    return render_template("dashboard.html", user=user, repos=repos, analytics=analytics, username=username)
+    chart_data = {
+        "repository_names": [repo["name"] for repo in repos],
+        "repository_stars": [repo["stargazers_count"] for repo in repos],
+    }
+
+    return render_template("dashboard.html", user=user, repos=repos, analytics=analytics, username=username, chart_data=chart_data)
