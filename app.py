@@ -1,11 +1,13 @@
 from flask import Flask, render_template, request, redirect, url_for
 from services.github import GithubService
 from routes.github import github_bp
+from routes.ai import ai_bp
 
 #initialize Flask app
 app = Flask(__name__)
 app.config.from_object('config.Config')
 app.register_blueprint(github_bp)
+app.register_blueprint(ai_bp)
 
 github = GithubService()
 

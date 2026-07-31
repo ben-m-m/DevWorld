@@ -53,6 +53,7 @@ function renderRepositories(repositories) {
                     <br></br>
                     <p> View Analytics </p>
                     <a href="${repo.html_url}" target="_blank" class="btn btn-outline-dark"> View on GitHub </a>
+                    <a class="btn btn-success mt-2 analyzeRepo" href="/analyze/${window.devWorld.username}/${repo.name}" onclick="showAILoading()"> Analyze with AI </a>
                 </div>
              </div>
         </div>
@@ -131,6 +132,14 @@ function updateRepositorySummary(repo) {
         </div>
 
     `;
+}
+
+//show loading AI
+function showAILoading() {
+    const loader = document.getElementById("ai-loading");
+    if (loader) {
+        loader.style.display = "flex";
+    }
 }
 
 document.addEventListener("DOMContentLoaded", () => {

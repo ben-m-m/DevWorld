@@ -269,12 +269,27 @@
 <p class="text-muted">No repositories found for this user.Enter a different username.</p>
 {% endif %}
 
+<div id="ai-loading" class="ai-loading-overlay">
+    <div class="ai-loading-box">
+        <div class="spinner"></div>
+        <h3>
+            Senior Engineer AI Review
+        </h3>
+        <p>
+            Gemini is analyzing this repository.
+            <br>
+            Please wait a moment...
+        </p>
+    </div>
+</div>
+
 {% endblock %}
 
 {% block scripts %}
 
 <script>
     window.devWorld = {
+        username: "{{ username }}",
         repositories: {{ repos | tojson }},
         analytics: {{ analytics | tojson }}
     };

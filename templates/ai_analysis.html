@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block title %}
+AI Engineering Review
+{% endblock %}
+
+{% block content %}
+
+<a href="javascript:history.back()" class="btn btn-secondary mb-4"> ← Dashboard</a>
+
+<div class="card shadow">
+        <div class="card-body"> 
+        <h1>{{ repository.name }}</h1>
+        <p>{{ repository.description }}</p>
+        <hr>
+        <div class="row">
+            <div class="col">
+                ⭐ {{ repository.stargazers_count }}
+            </div>
+            <div class="col">
+                🍴 {{ repository.forks_count }}
+            </div>
+            <div class="col">
+                💻 {{ repository.language }}
+            </div>
+            <div class="col">
+                📦 {{ repository.size }} KB
+            </div>
+        </div>
+        <hr>
+        <pre style="white-space:pre-wrap;font-family:inherit"> {{ analysis | safe }} </pre>
+    </div>
+</div>
+
+{% endblock %}
+
+
