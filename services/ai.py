@@ -4,10 +4,11 @@ import markdown
 from config import Config
 from groq import Groq
 
-
-
+# Create a single Groq client instance from the configured API key.
 client = Groq(api_key=Config.GROQ_API_KEY)
+
 class AIService:
+    # Build a structured prompt from the repository metadata and ask Groq for a review.
     def analyze_repository(self, repo):
         prompt = f"""
 You are a Senior Software Engineer and Recruiter.
@@ -86,7 +87,7 @@ Use these headings:
 Return markdown.
 """
         try:
-
+            # Send the formatted engineering prompt to the Groq model.
             response = client.chat.completions.create(
                 model="openai/gpt-oss-120b",
                 messages=[
@@ -99,12 +100,13 @@ Return markdown.
                 max_completion_tokens=4096,
             )
 
+            # Convert the model response into rendered HTML-safe markdown.
             return markdown.markdown(
                 response.choices[0].message.content
             )
 
         except Exception as e:
-
+            # Return a readable fallback message if the AI provider fails.
             return f"""
 # AI Analysis Temporarily Unavailable
 

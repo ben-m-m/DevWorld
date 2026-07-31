@@ -1,17 +1,18 @@
 import requests
 
-#
+# Service wrapper for all GitHub REST API interactions.
 class GithubService:
 
+    # GitHub API base endpoint.
     BASE_URL = "https://api.github.com"
 
-    #initialize the GithubService with a requests session
+    # Initialize a reusable requests session with the GitHub API header.
     def __init__(self):
         self.session = requests.Session()
         self.session.headers.update({
             "Accept": "application/vnd.github.v3+json"})
 
-    #get user information from GitHub API
+    # Fetch a single GitHub user's profile metadata.
     def get_user(self, username):
         """Fetches user information from GitHub API."""
         url = f"{self.BASE_URL}/users/{username}"
@@ -23,7 +24,7 @@ class GithubService:
             return None
     
 
-    #get user's repos
+    # Fetch all public repositories for a given GitHub username.
     def get_repositories(self, username):
         """Fetches user's repositories from GitHub API."""
         url = f"{self.BASE_URL}/users/{username}/repos"

@@ -1,16 +1,14 @@
 from collections import Counter
 
 """
-Analytics service for processing and analyzing GitHub repos data.
+Analytics service for processing and analyzing GitHub repository data.
 """
 
 class AnalyticsService:
     
-    def analyze_repositories( self, repos):
-        
+    def analyze_repositories(self, repos):
         """
-        Orchestrates all the other  repo analysis functions.
-        Returns analytics dict
+        Orchestrates all repository analysis logic and returns a summary dictionary.
         """
         if not repos:
             return {
@@ -26,57 +24,45 @@ class AnalyticsService:
                 "highest_star_count": 0,
                 "oldest_repository": "N/A",
                 "active_repo": 0,
-                }
+            }
 
-        #general stats
+        # Aggregate the basic counts across all repositories.
         total_stars = sum(repo.get("stargazers_count", 0) for repo in repos)
         total_forks = sum(repo.get("forks_count", 0) for repo in repos)
         total_open_issues = sum(repo.get("open_issues_count", 0) for repo in repos)
-
 
         summary = {
             "total_repositories": len(repos),
             "total_stars": total_stars,
             "total_forks": total_forks,
             "total_open_issues": total_open_issues
-
         }
 
-        #merging specialized analysis
+        # Merge specialized analytics into the final summary payload.
         summary.update(self.language_statistics(repos))
         summary.update(self.repository_ranking(repos))
         summary.update(self.activity_statistics(repos))
 
         return summary
 
-        
-
     def language_statistics(self, repos):
-            # languages used stats
+        # Count programming languages used across the supplied repositories.
         languages = [repo.get("language") for repo in repos if repo.get("language")]
-        
         language_counter = Counter(languages)
-            
+
         return {
-            "most_common_language" : language_counter.most_common(1)[0][0] if language_counter else "N/A",
+            "most_common_language": language_counter.most_common(1)[0][0] if language_counter else "N/A",
             "language_breakdown": dict(language_counter)
         }
 
-    
-
     def repository_ranking(self, repos):
-        #repo rankings and markers counts
+        # Identify top-ranked repositories by size, popularity, and age.
         if not repos:
             return {}
-        largest_repo = max(repos, key=lambda repo: repo.get("size", 0), default=None)
-        
 
+        largest_repo = max(repos, key=lambda repo: repo.get("size", 0), default=None)
         most_starred = max(repos, key=lambda repo: repo.get("stargazers_count", 0), default=None)
-        
-        
         largest_size_repo = max(repo.get("size", 0) for repo in repos)
-          
-        
         oldest_repo = min(repos, key=lambda repo: repo.get("created_at", ""), default=None)
 
         return {
@@ -88,7 +74,7 @@ class AnalyticsService:
         }
 
     def activity_statistics(self, repos):
-        #active repo by recent updates
+        # Count active and archived repositories to show maintenance posture.
         active_repositories = sum(1 for repo in repos if not repo.get("archived", False))
         archived_repositories = sum(1 for repo in repos if repo.get("archived", False))
 
