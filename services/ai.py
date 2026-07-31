@@ -1,11 +1,11 @@
 import os
-import google.generativeai as genai
+import google.genai as genai
+from google.genai.errors import APIError
 import markdown
+from config import Config
 
 
-genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
-
-model = genai.GenerativeModel("gemini-3.5-flash")
+client = genai.Client( api_key=Config.GEMINI_API_KEY )
 
 class AIService:
     def analyze_repository(self, repo):
@@ -67,6 +67,15 @@ Use these headings:
 
 Return markdown.
 """
-        response = model.generate_content(prompt)
-        return markdown.markdown(response.text)
+        try:
+            response = client.models.generate_content(model="gemini-3.5-flash", contents=prompt)
+            return markdown.markdown(response.text)
+        except APIError as e:
+            return f"""
+# AI Analysis Temporarily Unavailable
+
+Reason: {e}
+
+Please try again in a few moments.
+"""
     

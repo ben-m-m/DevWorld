@@ -134,13 +134,7 @@ function updateRepositorySummary(repo) {
     `;
 }
 
-//show loading AI
-function showAILoading() {
-    const loader = document.getElementById("ai-loading");
-    if (loader) {
-        loader.style.display = "flex";
-    }
-}
+
 
 document.addEventListener("DOMContentLoaded", () => {
     renderRepositories(window.devWorld.repositories);
@@ -154,3 +148,12 @@ if (button) {
         updateCharts(window.devWorld.repositories);
     });
 }
+
+//show loading AI
+function showAILoading() {
+    const loader = document.getElementById("ai-loading");
+    if (loader) {
+        loader.style.display = "flex";
+    }
+}
+
