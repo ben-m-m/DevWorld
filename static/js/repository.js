@@ -13,14 +13,15 @@ function renderRepositories(repositories) {
 
     repositories.forEach(repo => {
         container.innerHTML += `
-        <div class="col-md-6 mb-4 repository-card"
+        <div class="col-md-6 mb-4 repository-card selectable-repo"
              data-name="${repo.name}"
              data-language="${repo.language || "Unknown"}"
              data-stars="${repo.stargazers_count}"
              data-forks="${repo.forks_count}"
              data-size="${repo.size}"
              data-created="${repo.created_at}"
-             data-updated="${repo.updated_at}">
+             data-updated="${repo.updated_at}"
+             data-repo="${repo.name}">
 
              <div class="card h-100 shadow-sm">
                 <div class="card-body">
@@ -50,7 +51,7 @@ function renderRepositories(repositories) {
                         Updated: ${repo.updated_at.substring(0, 10)}
                     </small>
                     <br></br>
-                    <button class="btn btn-primary btn-sm mt-3 viewRepoStats" data-repo="${repo.name}"> View Analytics </button>
+                    <p> View Analytics </p>
                     <a href="${repo.html_url}" target="_blank" class="btn btn-outline-dark"> View on GitHub </a>
                 </div>
              </div>
@@ -63,19 +64,20 @@ function renderRepositories(repositories) {
 
 //attaches the events to the repo
 function attachRepositoryEvents() {
-    document.querySelectorAll(".viewRepoStats").forEach(button => {
-        button.addEventListener("click", () => {
-            document.querySelectorAll(".repository-card").forEach(card => card.classList.remove("selected"));
-            const card = button.closest(".repository-card");
-            card.classList.add("selected");
+    document.querySelectorAll(".repository-card").forEach(card => {
+        card.addEventListener("click", (event) => {
+            //ignore clicks on the github link
+            if (event.target.closest("a")) return;
 
-            const repoName = button.dataset.repo;
+            const repoName = card.dataset.repo;
             const repo = displayedRepositories.find(r => r.name === repoName);
 
             if (!repo) return;
 
             updateCharts([repo]);
             updateRepositorySummary(repo);
+            updateRepositoryIntel(repo);
+            highlightRepository(card);
 
             window.scrollTo({
                 top: 350,
@@ -84,6 +86,13 @@ function attachRepositoryEvents() {
         });
     });
 }
+
+//highliting function on clicking card
+function highlightRepository(selectedCard){
+    document.querySelectorAll(".repository-card").forEach(card=>{ card.classList.remove("repository-selected");});
+    selectedCard.classList.add("repository-selected");
+}
+
 
 function updateRepositorySummary(repo) {
 

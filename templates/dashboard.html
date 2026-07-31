@@ -250,41 +250,20 @@
 
     </div>
 </div>
+<div class="card shadow mb-5">
+    <div class="card-header">
+        <h4> Repository Intelligence </h4>
+    </div>
+    <div class="card-body" id="repositoryIntelligence">
+        <p class="text-muted">
+            Select a repository to view Engineering insights.
+        </p>
+    </div>
+</div>
 {% endif %}
 <!-- insights -->
 {% if repos %}
 <div class="row" id="repositoryContainer">
-    <!-- {% for repo in repos %}
-    <div class="col-md-6 mb-4 repository-card" data-name="{{ repo.name }}">
-        <div class="card h-100 shadow-sm">
-            <div class="card-body">
-                <h4>{{ repo.name }}</h4>
-                <p class="text-muted">{{ repo.description or "No description available." }}</p>
-                <p>
-                    <strong>Language:</strong>
-                    <span class="badge bg-primary"> {{ repo.language or "Unknown" }} </span>
-                </p>
-                <div class="d-flex flex-wrap gap-3 my-2">
-
-                    <span>⭐ {{ repo.stargazers_count }}</span>
-
-                    <span>🍴 {{ repo.forks_count }}</span>
-
-                    <span>👀 {{ repo.watchers_count }}</span>
-
-                    <span>🐞 {{ repo.open_issues_count }}</span>
-
-                </div>
-
-                <p> size: {{ repo.size }} KB </p>
-                <p>
-                    <small class="text-muted">Last Updated: {{ repo.updated_at[:10] }}</small>
-                </p>
-                <a href="{{ repo.html_url }}" target="_blank" class="btn btn-outline-dark">View on GitHub</a>
-            </div>
-        </div>
-    </div>
-    {% endfor %} -->
 </div>
 {% else %}
 <p class="text-muted">No repositories found for this user.Enter a different username.</p>
@@ -300,6 +279,7 @@
         analytics: {{ analytics | tojson }}
     };
 </script>
+<script src="{{ url_for('static', filename='js/intelligence.js') }}"></script>
 <script src="{{ url_for('static', filename='js/repository.js') }}"></script>
 <script src="{{ url_for('static', filename='js/filters.js') }}"></script>
 <script src="{{ url_for('static', filename='js/charts.js') }}"></script>
