@@ -11,7 +11,33 @@ class AIService:
     def analyze_repository(self, repo):
         prompt = f"""
 You are a Senior Software Engineer and Recruiter.
-Review this Github repository.
+Produce an engineering design Review for this Github repository.
+
+Evaluate:
+
+- Codebase maturity
+- Project architecture
+- Maintainability
+- Scalability
+- Testability
+- Documentation quality
+- Security concerns
+- Performance concerns
+- Hiring readiness
+- Business potential
+
+Give scores out of 10.
+
+Finish with:
+
+Overall Engineering Grade:
+A+
+A
+B
+C
+D
+
+Keep the report professional.
 
 Repository:
 {repo["name"]}
@@ -46,23 +72,15 @@ Updated:
 Write a professional engineering report.
 
 Use these headings:
-
 # Executive Summary
-
 # Architecture
-
 # Strengths
-
 # Weaknesses
-
+# Security Concerns
 # Maintainability
-
 # Scalability
-
-# Documentation
-
+# Documentation quality
 # Recommendations
-
 # Engineering Score
 
 Return markdown.

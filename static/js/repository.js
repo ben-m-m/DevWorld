@@ -51,9 +51,9 @@ function renderRepositories(repositories) {
                         Updated: ${repo.updated_at.substring(0, 10)}
                     </small>
                     <br></br>
-                    <p> View Analytics </p>
+                    <p> Click card for dashboard stats on this Repo </p>
                     <a href="${repo.html_url}" target="_blank" class="btn btn-outline-dark"> View on GitHub </a>
-                    <a class="btn btn-success mt-2 analyzeRepo" href="/analyze/${window.devWorld.username}/${repo.name}" onclick="showAILoading()"> Analyze with AI </a>
+                    <a class="btn btn-success mt-2 analyzeRepo" href="/analyze/${window.devWorld.username}/${encodeURIComponent(repo.name)}" onclick="showAILoading()"> Analyze with AI </a>
                 </div>
              </div>
         </div>
