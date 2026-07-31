@@ -25,10 +25,8 @@ class Config:
         "GITHUB_CLIENT_SECRET"
     )
 
-    # Gemini AI
-    GEMINI_API_KEY = os.getenv(
-        "GEMINI_API_KEY"
-    )
+    # Groq AI
+    GROQ_API_KEY = os.getenv("GROQ_API_KEY")
 
     # Cache
     CACHE_TIMEOUT = int(
@@ -37,4 +35,3 @@ class Config:
             300
         )
     )
-    

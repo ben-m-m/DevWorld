@@ -1,12 +1,12 @@
 import os
-#import google.generativeai as genai
-#import google.api_core.exceptions as exceptions
+
 import markdown
 from config import Config
-import requests
+from groq import Groq
 
 
 
+client = Groq(api_key=Config.GROQ_API_KEY)
 class AIService:
     def analyze_repository(self, repo):
         prompt = f"""
@@ -86,57 +86,34 @@ Use these headings:
 Return markdown.
 """
         try:
-            url = (
-                "https://generativelanguage.googleapis.com/"
-                "v1beta/models/gemini-3.5-flash:generateContent"
-            )
 
-            headers = {
-                "Content-Type": "application/json"
-            }
-
-            payload = {
-                "contents": [
+            response = client.chat.completions.create(
+                model="openai/gpt-oss-120b",
+                messages=[
                     {
-                        "parts": [
-                            {
-                                "text": prompt
-                            }
-                        ]
+                        "role": "user",
+                        "content": prompt
                     }
-                ]
-            }
-
-            response = requests.post(
-                url,
-                headers=headers,
-                params={
-                    "key": Config.GEMINI_API_KEY
-                },
-                json=payload,
-                timeout=60
+                ],
+                temperature=0.4,
+                max_completion_tokens=4096,
             )
 
-            response.raise_for_status()
-
-            data = response.json()
-
-            text = (
-                data["candidates"][0]
-                ["content"]
-                ["parts"][0]
-                ["text"]
+            return markdown.markdown(
+                response.choices[0].message.content
             )
-
-            return markdown.markdown(text)
 
         except Exception as e:
 
             return f"""
 # AI Analysis Temporarily Unavailable
 
-Reason: {e}
+Reason:
+{e}
 
 Please try again later.
 """
+
+
+    
     
