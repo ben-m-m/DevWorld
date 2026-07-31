@@ -99,7 +99,17 @@ function updateRepositoryIntel(repo) {
 
 //calculating metrics
 function calculateMaintenance(repo) {
-    return repo.archived ? 20 : 90;
+    let score = 100;
+
+    if (repo.archived)
+        score -= 50;
+
+    score -= repo.open_issues_count * 2;
+
+    if (score < 10)
+        score = 10;
+
+    return score;
 }
 
 function calculatePopularity(repo) {
