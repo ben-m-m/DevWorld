@@ -1,51 +1,66 @@
-# DevWorld
-
-DevWorld – AI-Powered GitHub Engineering Analytics Platform
+# DevWorld – AI-Powered GitHub Engineering Analytics Platform
 
 ## Overview
 
-DevWorld is an AI-powered engineering analytics platform that transforms any public GitHub profile into an interactive software engineering dashboard.
+DevWorld is an AI-powered GitHub engineering analytics platform that transforms public GitHub profiles into interactive software engineering dashboards.
 
-Instead of simply displaying repository statistics, DevWorld analyzes a developer's GitHub portfolio, visualizes engineering metrics, and leverages Google Gemini AI to generate professional engineering reviews for individual repositories.
+Unlike traditional GitHub profile viewers that only display repository statistics, DevWorld analyzes developer activity, visualizes engineering metrics, and generates AI-powered engineering reviews for individual repositories.
 
-The project was developed as part of the African Leadership University (ALU) – Playing Around With APIs summative assessment.
+The platform helps developers answer:
+
+- What have I built?
+- Which technologies define my work?
+- How healthy are my repositories?
+- Which projects demonstrate engineering maturity?
+- How can I improve my engineering portfolio?
+
+DevWorld combines the GitHub REST API, Groq AI API, and interactive data visualization to provide meaningful engineering insights.
+
+This project was developed as part of the African Leadership University (ALU) **Playing Around With APIs** summative assessment.
+
+---
 
 ## Problem Statement
 
-GitHub provides repository information but does not help developers understand:
+GitHub provides valuable repository information but does not directly help developers understand:
 
-- How healthy their repositories are
-- Which projects demonstrate engineering maturity
-- Which programming languages dominate their work
-- Repository popularity and activity
-- Areas that need improvement
-- Professional engineering feedback
+- The quality and maturity of their projects
+- Repository maintainability
+- Engineering strengths and weaknesses
+- Technology trends across their work
+- Portfolio readiness for recruiters
 
-DevWorld bridges this gap by combining the GitHub REST API, Google Gemini AI, and interactive engineering analytics into a single platform.
+Developers often have many repositories but lack a structured way to evaluate their growth and engineering impact.
+
+DevWorld bridges this gap by combining GitHub data analysis, interactive dashboards, and AI-generated engineering reviews into a single platform.
+
+---
 
 ## Features
 
-### GitHub User Search
+## GitHub User Search
 
-Search any public GitHub username.
+Users can search any public GitHub username.
 
-The application automatically retrieves:
+DevWorld retrieves:
 
 - Profile information
-- Repository list
+- Repository information
 - Followers
 - Following
 - Public repositories
 - Bio
 - Company
 - Website
-- Join date
+- Account creation date
 
-using the GitHub REST API.
+Data is collected using the GitHub REST API.
 
-### Engineering Dashboard
+---
 
-Each GitHub profile generates an engineering dashboard containing:
+## Engineering Analytics Dashboard
+
+Each GitHub profile generates an engineering analytics dashboard containing:
 
 - Total repositories
 - Total stars
@@ -53,23 +68,32 @@ Each GitHub profile generates an engineering dashboard containing:
 - Primary programming language
 - Largest repository
 - Most starred repository
-- Active repositories
+- Most active repositories
+- Language distribution
 
-These statistics are calculated dynamically from the GitHub API response.
+Analytics are calculated dynamically from GitHub repository data.
 
-### Repository Explorer
+---
 
-Repositories can be explored using:
+## Repository Explorer
 
-- Search by repository name
-- Sort repositories
-- Filter by programming language
+Repositories can be explored using interactive controls:
 
-Supported sorting includes:
+## Search
 
-- Newest updated
-- Oldest updated
-- Newest created
+Search repositories by name.
+
+## Filtering
+
+Filter repositories by programming language.
+
+## Sorting
+
+Supported sorting options:
+
+- Recently updated
+- Least recently updated
+- Recently created
 - Oldest created
 - Alphabetical A–Z
 - Alphabetical Z–A
@@ -77,30 +101,37 @@ Supported sorting includes:
 - Lowest stars
 - Highest forks
 - Lowest forks
-- Largest size
-- Smallest size
+- Largest repository size
+- Smallest repository size
 
-Whenever filters change, both the repository list and all dashboard charts update automatically.
+Whenever filtering or sorting changes, the repository data and visualizations update dynamically.
 
-### Interactive Analytics
+---
 
-Selecting a repository immediately updates the dashboard.
+## Interactive Data Visualization
 
-The following charts are redrawn using only the selected repository (or filtered repositories):
+DevWorld presents repository analytics using interactive charts powered by Chart.js.
 
-- Language Distribution
-- Repository Stars
-- Repository Forks
+Visualizations include:
 
-The charts are built using Chart.js.
+- Programming language distribution
+- Repository stars
+- Repository forks
+- Repository sizes
 
-### Repository Intelligence
+Selecting repositories updates dashboard analytics dynamically.
 
-Selecting a repository displays an Engineering Intelligence Panel.
+---
 
-The panel includes:
+## Repository Engineering Intelligence
 
-- Repository description
+Each repository includes an engineering intelligence analysis panel.
+
+The panel displays:
+
+## Repository Information
+
+- Description
 - Programming language
 - Stars
 - Forks
@@ -108,56 +139,56 @@ The panel includes:
 - Creation date
 - Last update date
 
-Alongside calculated engineering metrics:
+## Engineering Metrics
 
-#### Maintenance Score
+### Maintenance Score
 
 Calculated using:
 
-- Archived status
+- Repository archived status
 - Open issues
+- Repository activity
 
-Higher scores indicate better maintainability.
-
-#### Popularity Score
+### Popularity Score
 
 Calculated using:
 
 - GitHub stars
 
-Higher popularity results in higher scores.
+### Activity Score
 
-#### Activity Score
+Calculated using:
 
-Calculated from:
+- Repository update frequency
 
-- Repository last updated date
+### Overall Engineering Health
 
-Recently maintained repositories receive higher scores.
-
-#### Overall Engineering Health
-
-The three metrics are combined into a final engineering score.
-
-Possible ratings include:
+Combines multiple engineering indicators into a final repository health assessment:
 
 - Excellent
 - Good
 - Average
 - Needs More Attention
 
-### AI Engineering Review
+---
 
-One of DevWorld's key features is its integration with Google Gemini AI.
+## AI Engineering Review
 
-Each repository includes an Analyze with AI button.
+One of DevWorld's main features is AI-powered repository analysis using the **Groq API**.
 
-When selected:
+Each repository provides an:
 
-- Repository metadata is collected.
-- A structured engineering prompt is generated.
-- Gemini AI performs a professional repository review.
-- The generated report is rendered on a dedicated analysis page.
+**Analyze Repository With AI**
+
+feature.
+
+The system:
+
+1. Collects repository metadata.
+2. Builds an engineering review prompt.
+3. Sends repository information to Groq AI.
+4. Generates a professional engineering assessment.
+5. Displays the report in a dedicated analysis page.
 
 The AI evaluates:
 
@@ -165,94 +196,119 @@ The AI evaluates:
 - Software Architecture
 - Project Strengths
 - Weaknesses
+- Security Concerns
 - Maintainability
 - Scalability
-- Documentation
+- Documentation Quality
 - Engineering Recommendations
 - Overall Engineering Score
 
-This simulates a professional code review performed by a senior software engineer.
+The AI review simulates feedback from a senior software engineer and technical recruiter.
+
+---
+
+## Error Handling
+
+DevWorld includes error handling for:
+
+- Invalid GitHub usernames
+- GitHub API failures
+- AI API downtime
+- Invalid API responses
+- Network failures
+
+If AI analysis is unavailable, repository analytics remain accessible.
+
+---
 
 ## Technologies Used
 
-### Backend
+## Backend
 
 - Python
 - Flask
 - Gunicorn
 
-### Frontend
+## Frontend
 
 - HTML5
 - CSS3
 - Bootstrap 5
-- JavaScript (Vanilla)
+- Vanilla JavaScript
 
-### APIs
+## APIs
 
-#### GitHub REST API
+### GitHub REST API
 
 Used for:
 
 - User profiles
-- Repository information
-- Repository metadata
-- Programming languages
+- Repository data
 - Repository statistics
+- Languages
+- Metadata
 
-#### Google Gemini API
+### Groq API
 
-Used to generate AI-powered engineering reviews.
+Used for:
 
-### Visualization
+- AI-powered repository engineering reviews
+- Technical analysis generation
+
+## Visualization
 
 - Chart.js
 
-## Deployment Stack
+---
 
-The application is designed for production deployment using:
+## Deployment Architecture
+
+DevWorld is deployed using a production web stack:
 
 - Ubuntu Linux
-- Gunicorn
 - Nginx
+- Gunicorn
 - HAProxy
 - Let's Encrypt SSL
-- Round Robin Load Balancing
+- Systemd services
 
-### Architecture
+Architecture:
 
-```text
+```
                  Internet
-                     │
-                     ▼
-             mainaben.tech
-                     │
-                     ▼
-                HAProxy (lb-01)
-                     │
+                     |
+                     |
+                HAProxy
+                 lb-01
+                     |
         ┌────────────┴────────────┐
-        │                         │
+        |                         |
         ▼                         ▼
      web-01                    web-02
-        │                         │
+        |                         |
      Nginx                     Nginx
-        │                         │
-     Gunicorn                 Gunicorn
-        │                         │
-       Flask                   Flask
+        |                         |
+   Gunicorn                 Gunicorn
+        |                         |
+      Flask                   Flask
+        |
+        |
+ GitHub API + Groq API
 ```
 
-This setup provides:
+The deployment provides:
 
-- High availability
 - Load balancing
+- High availability
 - SSL termination
 - Fault tolerance
-- Scalability
+- Horizontal scalability
+
+---
 
 ## Project Structure
 
-```text
+```
 DevWorld/
 │
 ├── app.py
@@ -286,9 +342,11 @@ DevWorld/
     └── index.html
 ```
 
+---
+
 ## Installation
 
-### Clone the repository
+## Clone Repository
 
 ```bash
 git clone https://github.com/YOUR_USERNAME/DevWorld.git
@@ -296,40 +354,50 @@ git clone https://github.com/YOUR_USERNAME/DevWorld.git
 cd DevWorld
 ```
 
-### Create a virtual environment
+---
+
+## Create Virtual Environment
 
 ```bash
 python3 -m venv .venv
 ```
 
-### Activate it
+Activate:
 
-#### Linux
+Linux:
 
 ```bash
 source .venv/bin/activate
 ```
 
-#### Windows
+Windows:
 
 ```bash
 .venv\Scripts\activate
 ```
 
-### Install dependencies
+---
+
+## Install Dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
+---
+
 ## Environment Variables
 
-Create a .env file in the project root.
+Create a `.env` file in the project root.
+
+Example:
 
 ```env
 SECRET_KEY=your_secret_key
 
-GEMINI_API_KEY=your_gemini_api_key
+GITHUB_TOKEN=your_github_token
+
+GROQ_API_KEY=your_groq_api_key
 
 GITHUB_CLIENT_ID=optional
 
@@ -338,87 +406,104 @@ GITHUB_CLIENT_SECRET=optional
 FLASK_ENV=development
 ```
 
+Never commit `.env` files to GitHub.
+
+---
+
 ## Running the Application
 
-### Development
+## Development
 
 ```bash
 python app.py
 ```
 
-### Production
+Application:
+
+```
+http://localhost:5000
+```
+
+---
+
+## Production
+
+Run using Gunicorn:
 
 ```bash
 gunicorn app:app
 ```
 
-### Open
+---
 
-```text
-http://localhost:5000
-```
+## API Attribution
 
-## API Requirements
+## GitHub REST API
 
-### GitHub API
-
-The application consumes:
-
-- GET /users/{username}
-- GET /users/{username}/repos
+GitHub provides repository and user information.
 
 Documentation:
 
-- https://docs.github.com/en/rest
+https://docs.github.com/en/rest
 
-### Google Gemini API
 
-Requires:
+## Groq API
 
-- Gemini API Key
-- Google AI Studio account
+Groq provides AI inference capabilities used for repository engineering analysis.
 
 Documentation:
 
-- https://ai.google.dev/
+https://console.groq.com/docs
+
+
+---
 
 ## Future Improvements
 
-Potential future enhancements include:
+Future enhancements include:
 
 - GitHub OAuth authentication
-- Repository comparison using AI
-- Commit history analysis
+- Repository comparison
+- Commit history analytics
+- Pull request analysis
 - Contributor analytics
-- Issue and pull request analytics
-- Code quality metrics
+- Code quality scoring
 - Export AI reports as PDF
-- AI chat assistant for repositories
-- Repository trend analysis over time
+- AI repository chat assistant
+- Historical developer growth tracking
 - Personalized engineering recommendations
+
+---
 
 ## Live Demo
 
-### Production URL
+Production URL:
 
-https://YOUR-DOMAIN.tech
+```
+https://www.mainaben.tech
+```
 
-(Replace with your deployed domain.)
+---
 
-### Video Demonstration
+## Demo Video
 
-#### Project Walkthrough
+Project walkthrough:
 
-https://YOUR-YOUTUBE-VIDEO-LINK
+```
+https://youtu.be/foLgG44j2dU
+```
 
-(Replace with your presentation video link.)
+---
 
 ## Author
 
-- Benson Maina
-- BSc Software Engineering
-- African Leadership University
+**Benson Maina**
+
+BSc Software Engineering  
+African Leadership University
+
+---
 
 ## License
 
-This project was developed for educational purposes as part of the African Leadership University (ALU) coursework and is released under the MIT License.
+This project was developed for educational purposes as part of African Leadership University coursework and is released under the MIT License.
