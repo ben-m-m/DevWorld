@@ -19,9 +19,7 @@ github = GithubService()
 # Home page route: renders the landing page.
 @app.route('/')
 def home():
-    # Example of a previously used test block for fetching a specific profile.
-    # username = "ben-m-m"  # Replace with actual username or get from request
-    # user = github.get_user(username)
+    
 
     return render_template('index.html')
 

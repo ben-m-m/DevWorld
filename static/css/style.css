@@ -1,3 +1,23 @@
+:root {
+    --bg-color: #f5f7fb;
+    --card-bg: #ffffff;
+    --text-color: #1f2937;
+    --muted-color: #6b7280;
+    --accent-color: #0d6efd;
+    --accent-soft: rgba(13, 110, 253, 0.12);
+}
+
+body {
+    background: var(--bg-color);
+    color: var(--text-color);
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.card {
+    border: 1px solid rgba(15, 23, 42, 0.08);
+    border-radius: 14px;
+}
+
 /* dashboard charts */
 .chart-container {
     max-width: 420px;
@@ -7,7 +27,6 @@
 
 .chart-card {
     min-height: 420px;
-
 }
 
 .chart-title {
@@ -15,33 +34,35 @@
     margin-bottom: 1rem;
 }
 
-
-/* repo selection  */
-/* .repository-card {
-    transition: all 0.2s ease;
-    cursor: pointer;
-} */
-
-/* .repository-card.selected .card {
-    border: 3px solid #0d6efd;
-    transform: scale(1.02);
-    box-shadow: 0 0 20px rgba(13, 110, 253, .25)
-} */
-
+/* repo selection */
 .repository-card {
     cursor: pointer;
-    transition: .25s;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
 .repository-card:hover {
-    transform: translate(-4px);
+    transform: translateY(-4px);
 }
 
 .repository-selected {
-    border: 3px solid #0d6efd;
-    box-shadow: 0 0 20px rgba(13, 110, 253, .35);
+    border: 3px solid var(--accent-color);
+    box-shadow: 0 0 20px rgba(13, 110, 253, 0.35);
+    border-radius: 16px;
 }
 
+.repository-card .card {
+    height: 100%;
+}
+
+.repository-card .card-body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.repository-card .card-body .btn {
+    width: fit-content;
+}
 
 /* ai css styling */
 .ai-analysis {
@@ -54,6 +75,7 @@
     line-height: 1.8;
     color: var(--text-color);
 }
+
 /* Main headings */
 .ai-analysis h1 {
     font-size: 2rem;
@@ -75,21 +97,25 @@
 .ai-analysis p {
     margin-bottom: 1.2rem;
 }
+
 /* Lists */
 .ai-analysis ul,
 .ai-analysis ol {
     margin: 1rem 0 1.5rem 2rem;
 }
+
 .ai-analysis li {
     margin-bottom: 0.5rem;
 }
+
 /* Code blocks */
 .ai-analysis code {
-    background: rgba(128,128,128,0.15);
+    background: rgba(128, 128, 128, 0.15);
     padding: 0.2rem 0.5rem;
     border-radius: 5px;
     font-family: monospace;
 }
+
 .ai-analysis pre {
     background: #1e1e1e;
     padding: 1.2rem;
@@ -97,26 +123,28 @@
     overflow-x: auto;
     margin: 1.5rem 0;
 }
+
 .ai-analysis pre code {
     background: transparent;
     padding: 0;
 }
+
 /* Divider */
 .ai-analysis hr {
     margin: 2.5rem 0;
     border: none;
-    border-top: 1px solid rgba(128,128,128,0.3);
+    border-top: 1px solid rgba(128, 128, 128, 0.3);
 }
+
 .ai-loading-overlay {
     display: none;
     position: fixed;
     inset: 0;
-    background: rgba(0,0,0,0.65);
+    background: rgba(0, 0, 0, 0.65);
     z-index: 9999;
     justify-content: center;
     align-items: center;
 }
-
 
 .ai-loading-box {
     background: var(--card-bg);
@@ -124,13 +152,13 @@
     border-radius: 16px;
     text-align: center;
     width: 350px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    color: var(--text-color);
 }
 
 .ai-loading-box h3 {
     margin-top: 1rem;
 }
-
 
 .ai-loading-box p {
     opacity: 0.8;
@@ -140,15 +168,43 @@
 .spinner {
     width: 45px;
     height: 45px;
-    border: 5px solid rgba(255,255,255,0.3);
+    border: 5px solid rgba(255, 255, 255, 0.3);
     border-top-color: currentColor;
     border-radius: 50%;
     animation: spin 1s linear infinite;
 }
 
-
 @keyframes spin {
     to {
         transform: rotate(360deg);
     }
+}
+
+/* Extra page polish for landing, profile, and dashboard consistency */
+#repositorySummary,
+#repositoryIntelligence {
+    background: linear-gradient(180deg, rgba(13, 110, 253, 0.05), rgba(255, 255, 255, 1));
+}
+
+#repositoryContainer .card {
+    background: var(--card-bg);
+}
+
+#repositoryContainer .btn-outline-dark:hover {
+    background: #111827;
+    color: #fff;
+}
+
+#repositoryContainer .analyzeRepo {
+    margin-top: 0.5rem;
+}
+
+.profile-card,
+.dashboard-profile-card {
+    background: var(--card-bg);
+}
+
+.home-search-panel {
+    max-width: 720px;
+    margin: 0 auto;
 }
